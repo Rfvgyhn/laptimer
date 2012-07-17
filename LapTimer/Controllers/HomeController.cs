@@ -4,24 +4,25 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MongoDB.Driver;
+using LapTimer.Models;
+using LapTimer.Services;
 
 namespace LapTimer.Controllers
 {
     public class HomeController : Controller
     {
-        string connectionString = "mongodb://localhost/?safe=true";
+        IEventService eventService;
+
+        public HomeController(IEventService eventService)
+        {
+            this.eventService = eventService;
+        }
 
         public ActionResult Index()
         {
-            var server = MongoServer.Create("");
-            
+            var model = eventService.All();
 
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            return View();
+            return View(model);
         }
     }
 }

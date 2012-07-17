@@ -4,6 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Autofac;
+using Autofac.Integration.Mvc;
+using LapTimer.Services;
+using LapTimer.Data;
+using System.Web.Configuration;
 
 namespace LapTimer
 {
@@ -35,6 +40,19 @@ namespace LapTimer
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+
+            var assembly = typeof(MvcApplication).Assembly;
+            var builder = new ContainerBuilder();            
+            builder.RegisterControllers(assembly);
+            builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces();
+            builder.RegisterType<MongoRepository>().As<IRepository>()
+                   .WithParameters(new[] { 
+                       new NamedParameter("connectionString", WebConfigurationManager.ConnectionStrings["Database"].ConnectionString),
+                       new NamedParameter("databaseName", WebConfigurationManager.AppSettings["DatabaseName"])
+                   });            
+
+            var container = builder.Build();
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
     }
 }

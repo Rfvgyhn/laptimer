@@ -10,6 +10,7 @@ namespace LapTimer.Models
     {
         public ObjectId Id { get; set; }
         public Location Location { get; set; }
+        public DateTime Date { get; set; }
         public IList<Session> Sessions { get; set; }
 
         public Event()
