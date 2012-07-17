@@ -81,6 +81,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\DefaultDictionaryBinder.cs" />
     <Compile Include="Infrastructure\Extensions\DateTimeExtensions.cs" />
     <Compile Include="Infrastructure\Extensions\StringExtensions.cs" />
     <Compile Include="Models\Event.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Services\IEventService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Event\Create.js" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

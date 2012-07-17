@@ -4,6 +4,10 @@
     ViewBag.Title = "Create";
 }
 
+@section Head {
+    <script type="text/javascript" src="@Url.Content("~/Content/Event/Create.js")"></script>
+}
+
 @using (Html.BeginForm()) {
     <fieldset>
         <legend>Location</legend>
@@ -24,7 +28,8 @@
         <input id="newName" placeholder="Name" value="" type="text">
 
         <ul id="participants">
-                
+            
         </ul>
-    </fieldset>   
+    </fieldset>
+    <input type="submit" value="Create" />
 }

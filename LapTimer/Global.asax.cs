@@ -9,6 +9,7 @@ using Autofac.Integration.Mvc;
 using LapTimer.Services;
 using LapTimer.Data;
 using System.Web.Configuration;
+using LapTimer.Infrastructure;
 
 namespace LapTimer
 {
@@ -29,7 +30,8 @@ namespace LapTimer
             routes.MapRoute(
                 "ByLocation",
                 "{slug}/{date}",
-                new { controller = "Event", action = "ByLocation", date = UrlParameter.Optional }
+                new { controller = "Event", action = "ByLocation", date = UrlParameter.Optional },
+                new { date = @"\d{4}-\d{2}-\d{2}" }
             );
 
             routes.MapRoute(
@@ -46,6 +48,8 @@ namespace LapTimer
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+
+            ModelBinders.Binders.DefaultBinder = new DefaultDictionaryBinder();
 
             var assembly = typeof(MvcApplication).Assembly;
             var builder = new ContainerBuilder();            

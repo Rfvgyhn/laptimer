@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using LapTimer.Services;
 using LapTimer.Models;
+using LapTimer.Models.ViewModels;
+using LapTimer.Infrastructure.Extensions;
 
 namespace LapTimer.Controllers
 {
@@ -42,18 +44,21 @@ namespace LapTimer.Controllers
         } 
 
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(CreateEventViewModel model)
         {
-            try
+            Event e = new Event
             {
-                // TODO: Add insert logic here
+                Location = new Location { Name = model.LocationName, Slug = model.LocationName.ToSlug() },
+                Date = DateTime.UtcNow
+            };
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            foreach (var p in model.Participants)
+                e.Participants.Add(new Participant { Name = p.Value, Number = p.Key });
+
+            eventService.Save(e);
+
+            return RedirectToRoute("ByLocation", new { slug = e.Location.Slug, date = e.Date.ToSlug() });
+            
         }
         
         public ActionResult Edit(int id)

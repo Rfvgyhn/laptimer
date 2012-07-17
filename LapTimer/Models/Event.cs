@@ -12,10 +12,12 @@ namespace LapTimer.Models
         public Location Location { get; set; }
         public DateTime Date { get; set; }
         public IList<Session> Sessions { get; set; }
+        public IList<Participant> Participants { get; set; }
 
         public Event()
         {
             Sessions = new List<Session>();
+            Participants = new List<Participant>();
         }
     }
 }
