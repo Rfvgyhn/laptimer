@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using LapTimer.Models;
-using MongoDB.Driver;
 using LapTimer.Data;
+using LapTimer.Models;
 
 namespace LapTimer.Services
 {
@@ -22,6 +19,16 @@ namespace LapTimer.Services
             return repository.All<Event>();
         }
 
+        public IEnumerable<Event> Find(Func<Event, bool> predicate)
+        {
+            return repository.Find(predicate);
+        }
+
+        public Event Single(Func<Event, bool> predicate)
+        {
+            return repository.Single(predicate);
+        }
+
         public void Save(Event item)
         {
             repository.Save<Event>(item);
@@ -30,6 +37,6 @@ namespace LapTimer.Services
         public void Delete(Event item)
         {
             repository.Delete<Event>(item);
-        }        
+        }
     }
 }

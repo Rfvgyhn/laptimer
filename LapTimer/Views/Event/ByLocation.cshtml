@@ -1,0 +1,11 @@
+﻿@model IEnumerable<Event>
+
+@{
+    ViewBag.Title = "ByLocation";
+}
+
+<ul>
+@foreach (Event e in Model) {
+    <li>@Html.RouteLink(@e.Date.ToShortDateString(), "ByLocation", new { slug = e.Location.Slug, date = @e.Date.ToSlug() })</li>    
+}
+</ul>

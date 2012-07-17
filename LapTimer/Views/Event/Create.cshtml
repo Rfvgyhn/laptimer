@@ -1,0 +1,30 @@
+﻿@model CreateEventViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@using (Html.BeginForm()) {
+    <fieldset>
+        <legend>Location</legend>
+
+        @Html.LabelFor(m => m.LocationName)
+        @Html.TextBoxFor(m => m.LocationName, new { placeholder = "Name" })
+        <span class="noGPS"></span>
+    </fieldset>
+            
+    <fieldset>
+        <legend>Participants</legend>
+
+        <label for="newNumber">Number</label>
+        <input id="newNumber" placeholder="Number" value="" type="number">
+        <button id="addParticipant">Add</button>
+
+        <label for="newName">Name</label>
+        <input id="newName" placeholder="Name" value="" type="text">
+
+        <ul id="participants">
+                
+        </ul>
+    </fieldset>   
+}

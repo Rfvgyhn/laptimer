@@ -5,25 +5,16 @@
     <title>@ViewBag.Title</title>
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
-    <!--<script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js" type="text/javascript"></script>-->
 </head>
 <body>
-    <div class="page">
-        <header>
-            <nav>
-                <ul id="menu">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                </ul>
-            </nav>
-            <div id="title">
-                <h1>@ViewBag.Title</h1>
-            </div>            
-        </header>
-        <section id="main">
-            @RenderBody()
-        </section>
-        <footer>
-        </footer>
-    </div>
+    <header>
+        <h3>@ViewBag.Title</h3>
+        @Html.ActionLink("Home", "Index", "Home") 
+    </header>
+    <section>
+        @RenderBody()
+    </section>
+    <footer>
+    </footer>
 </body>
 </html>

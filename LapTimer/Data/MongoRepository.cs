@@ -6,6 +6,7 @@ using MongoDB.Driver;
 using LapTimer.Infrastructure.Extensions;
 using MongoDB.Driver.Builders;
 using MongoDB.Bson;
+using MongoDB.Driver.Linq;
 
 namespace LapTimer.Data
 {
@@ -18,33 +19,28 @@ namespace LapTimer.Data
             db = MongoServer.Create(connectionString).GetDatabase(databaseName);
         }
 
-        public TEntity Single<TEntity>(object key) where TEntity : class, new()
-        {
-            var collection = GetCollection<TEntity>();
-            var query = Query.EQ("_id", BsonValue.Create(key));
-            var entity = collection.FindOneAs<TEntity>(query);
-
-            if (entity == null)
-                throw new NullReferenceException("Document with key '" + key + "' not found.");
-
-            return entity;
-        }
-
         public IEnumerable<TEntity> All<TEntity>() where TEntity : class, new()
         {
             var collection = GetCollection<TEntity>();
-            var entity = collection.FindAllAs<TEntity>();
+            var entities = collection.FindAllAs<TEntity>();
 
-            return entity;
+            return entities;
         }
 
-        public bool Exists<TEntity>(object key) where TEntity : class, new()
+        public TEntity Single<TEntity>(Func<TEntity, bool> predicate) where TEntity : class, new()
         {
             var collection = GetCollection<TEntity>();
-            var query = Query.EQ("_id", BsonValue.Create(key));
-            var entity = collection.FindOneAs<TEntity>(query);
+            var entity = collection.AsQueryable().Where(predicate);
 
-            return entity != null;
+            return entity.Single();
+        }
+
+        public IEnumerable<TEntity> Find<TEntity>(Func<TEntity, bool> predicate) where TEntity : class, new()
+        {
+            var collection = GetCollection<TEntity>();
+            var entities = collection.AsQueryable().Where(predicate);
+
+            return entities;
         }
 
         public void Save<TEntity>(TEntity item) where TEntity : class, new()

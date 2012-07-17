@@ -2,8 +2,17 @@
     ViewBag.Title = "Home Page";
 }
 
-<ul>
+@Html.ActionLink("New Event", "Create", "Event")
+<h2 class="list-header">Past Events</h2>
+<ul class="list-view">
 @foreach (Event e in Model) {
-    <li>@e.Location.Name - @e.Date.ToShortDateString()</li>    
+    <li>
+        <a href="@Url.RouteUrl("ByLocation", new { slug = e.Location.Slug, date = e.Date.ToSlug() })">
+            @e.Location.Name
+            <span>
+                @e.Date.ToShortDateString()
+            </span>
+        </a>
+    </li>    
 }
 </ul>
