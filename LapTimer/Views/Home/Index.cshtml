@@ -7,7 +7,7 @@
 <ul class="list-view">
 @foreach (Event e in Model) {
     <li>
-        <a href="@Url.RouteUrl("ByLocation", new { slug = e.Location.Slug, date = e.Date.ToSlug() })">
+        <a href="@Url.RouteUrl("ByDate", new { slug = e.Location.Slug, date = e.Date.ToSlug(), action = "ByDate" })">
             @e.Location.Name
             <span>
                 @e.Date.ToShortDateString()

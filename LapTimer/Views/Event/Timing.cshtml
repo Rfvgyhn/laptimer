@@ -1,0 +1,41 @@
+﻿@model LapTimer.Models.Event
+
+@{
+    ViewBag.Title = "Timing";
+}
+
+@section Head {
+    <script type="text/javascript" src="@Url.Content("~/Content/Event/Timing.js")"></script>
+    <script type="text/javascript">
+        EVENT_ID = "@Model.Id";
+        CURRENT_SESSION = @Model.Sessions.Last().Id;
+    </script>
+}
+
+<fieldset>
+    <legend>Sessions</legend>
+    
+    <button id="newSession">New Session</button>
+
+    <ul id="sessions">
+    @foreach (var s in Model.Sessions) {
+        <li>Session @(s.Id + 1)</li> 
+    }
+    </ul>
+</fieldset>
+<ul id="times">
+@foreach (var t in Model.Sessions.Last().Participants) {
+    <li>
+        <span class="number">@t.Number</span> -
+        <span class="name">@t.Number</span>
+        <span class="elapsed" data-lap="@t.Times.Count">@( t.Times.Any() ? t.Times.Last().ToString(@"hh\:mm\:ss\.fff") : "00:00:00.000" )</span>
+        <a href="#" class="split">Split</a>
+        <a href="#" class="toggle start">Start</a>    
+    </li>
+}
+</ul>
+<div id="sessionDialog">
+    <input name="name" placeholder="Name" type="text" />
+    <button id="closeDialog">Cancel</button>
+    <button id="saveSession">Ok</button>
+</div>

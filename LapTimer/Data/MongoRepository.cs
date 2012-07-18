@@ -27,6 +27,18 @@ namespace LapTimer.Data
             return entities;
         }
 
+        public TEntity Single<TEntity>(object key) where TEntity : class, new()
+        {
+            var collection = GetCollection<TEntity>();
+            var query = Query.EQ("_id", new ObjectId(key.ToString()));
+            var entity = collection.FindOneAs<TEntity>(query);
+
+            if (entity == null)
+                throw new NullReferenceException("Document with key '" + key + "' not found.");
+
+            return entity;
+        }
+
         public TEntity Single<TEntity>(Func<TEntity, bool> predicate) where TEntity : class, new()
         {
             var collection = GetCollection<TEntity>();

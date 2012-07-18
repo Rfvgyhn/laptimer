@@ -9,5 +9,11 @@ namespace LapTimer.Models
     {
         public int Number { get; set; }
         public string Name { get; set; }
+        public IList<TimeSpan> Times { get; set; }
+
+        public Participant()
+        {
+            Times = new List<TimeSpan>();
+        }
     }
 }

@@ -28,16 +28,23 @@ namespace LapTimer
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                "ByLocation",
-                "{slug}/{date}",
-                new { controller = "Event", action = "ByLocation", date = UrlParameter.Optional },
-                new { date = @"\d{4}-\d{2}-\d{2}" }
+                "BySlug",
+                "events/{slug}",
+                new { controller = "Event", action = "ByDate", }
             );
 
             routes.MapRoute(
-                "Default", // Route name
-                "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+                "Default",
+                "{controller}/{action}",
+                new { controller = "Home", action = "Index" },
+                new { action = @"^[^0-9].+" }
+            );
+
+            routes.MapRoute(
+                "ByDate",
+                "events/{slug}/{date}/{action}",
+                new { controller = "Event", action = "ByDate", date = UrlParameter.Optional },
+                new { date = @"\d{4}-\d{2}-\d{2}" }
             );
 
         }

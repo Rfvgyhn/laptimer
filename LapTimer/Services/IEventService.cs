@@ -8,6 +8,7 @@ namespace LapTimer.Services
     {
         IEnumerable<Event> All();
         IEnumerable<Event> Find(Func<Event, bool> predicate);
+        Event Single(object key);
         Event Single(Func<Event, bool> predicate);
         void Save(Event item);
         void Delete(Event item);

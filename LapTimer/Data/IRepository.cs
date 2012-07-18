@@ -5,6 +5,7 @@ namespace LapTimer.Data
 {
     public interface IRepository
     {
+        TEntity Single<TEntity>(object key) where TEntity : class, new();
         TEntity Single<TEntity>(Func<TEntity, bool> predicate) where TEntity : class, new();
         IEnumerable<TEntity> All<TEntity>() where TEntity : class, new();
         IEnumerable<TEntity> Find<TEntity>(Func<TEntity, bool> predicate) where TEntity : class, new();

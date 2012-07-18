@@ -24,7 +24,7 @@ namespace LapTimer.Controllers
             return View();
         }
 
-        public ActionResult ByLocation(string slug, DateTime? date = null)
+        public ActionResult ByDate(string slug, DateTime? date = null)
         {
             if (date != null)
             {
@@ -51,14 +51,24 @@ namespace LapTimer.Controllers
                 Location = new Location { Name = model.LocationName, Slug = model.LocationName.ToSlug() },
                 Date = DateTime.UtcNow
             };
+            Session session = new Session { Id = 0 };
 
-            foreach (var p in model.Participants)
-                e.Participants.Add(new Participant { Name = p.Value, Number = p.Key });
+            foreach (var kvp in model.Participants)
+                session.Participants.Add(new Participant { Name = kvp.Value, Number = kvp.Key });
+
+            e.Sessions.Add(session);
 
             eventService.Save(e);
 
-            return RedirectToRoute("ByLocation", new { slug = e.Location.Slug, date = e.Date.ToSlug() });
+            return RedirectToRoute("ByDate", new { slug = e.Location.Slug, date = e.Date.ToSlug(), action = "ByDate" });
             
+        }
+
+        public ActionResult Timing(string slug, DateTime date)
+        {
+            var model = eventService.Single(e => e.Location.Slug == slug && e.Date.Date == date.Date);
+
+            return View(model);
         }
         
         public ActionResult Edit(int id)
@@ -99,6 +109,20 @@ namespace LapTimer.Controllers
             {
                 return View();
             }
+        }
+
+        [HttpPost]
+        public JsonResult AddLap(SaveLapViewModel model)
+        {
+            var @event = eventService.Single(model.EventId);
+            var session = @event.Sessions.Where(s => s.Id == model.SessionId).Single();
+            var participant = session.Participants.Where(p => p.Number == model.Participant).Single();
+
+            participant.Times.Add(TimeSpan.FromMilliseconds(model.Time));
+
+            eventService.Save(@event);
+
+            return Json(new { });
         }
     }
 }

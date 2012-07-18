@@ -7,11 +7,12 @@ namespace LapTimer.Models
 {
     public class Session
     {
-        public IList<Time> Times { get; set; }
+        public IList<Participant> Participants { get; set; }
+        public int Id { get; set; }
 
         public Session()
         {
-            Times = new List<Time>();
+            Participants = new List<Participant>();
         }
     }
 }

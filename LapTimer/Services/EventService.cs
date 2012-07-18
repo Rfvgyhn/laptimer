@@ -24,6 +24,11 @@ namespace LapTimer.Services
             return repository.Find(predicate);
         }
 
+        public Event Single(object key)
+        {
+            return repository.Single<Event>(key);
+        }
+
         public Event Single(Func<Event, bool> predicate)
         {
             return repository.Single(predicate);
