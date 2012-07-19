@@ -114,6 +114,7 @@
     <Content Include="Content\Event\Details.js" />
     <Content Include="Content\Event\Timing.js" />
     <Content Include="Content\Event\Create.js" />
+    <Content Include="favicon.ico" />
     <Content Include="Content\Main.js" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />

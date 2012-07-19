@@ -63,10 +63,7 @@ namespace LapTimer
             builder.RegisterControllers(assembly);
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces();
             builder.RegisterType<MongoRepository>().As<IRepository>()
-                   .WithParameters(new[] { 
-                       new NamedParameter("connectionString", WebConfigurationManager.AppSettings.Get("MONGOLAB_URI")),
-                       new NamedParameter("databaseName", WebConfigurationManager.AppSettings.Get("databaseName"))
-                   });            
+                   .WithParameter(new NamedParameter("connectionString", WebConfigurationManager.AppSettings.Get("MONGOLAB_URI"))); ;            
 
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));

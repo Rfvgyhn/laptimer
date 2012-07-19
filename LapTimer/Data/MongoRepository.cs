@@ -14,9 +14,9 @@ namespace LapTimer.Data
     {
         MongoDatabase db;
 
-        public MongoRepository(string connectionString, string databaseName)
+        public MongoRepository(string connectionString)
         {
-            db = MongoServer.Create(connectionString).GetDatabase(databaseName);
+            db = MongoDatabase.Create(connectionString);
         }
 
         public IEnumerable<TEntity> All<TEntity>() where TEntity : class, new()
