@@ -95,6 +95,7 @@
     <Compile Include="Services\IEventService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Event\Details.js" />
     <Content Include="Content\Event\Timing.js" />
     <Content Include="Content\Event\Create.js" />
     <Content Include="Content\Main.js" />

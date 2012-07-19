@@ -23,3 +23,20 @@ function ensureEndsWith(str, suffix) {
 
     return str;
 }
+
+function formatTime(time) {
+    var milliseconds = parseInt(time % 1000, 10);
+    var seconds = parseInt((time / 1000) % 60, 10);
+    var minutes = parseInt((time / (1000 * 60)) % 60, 10);
+    var hours = parseInt((time / (1000 * 60 * 60)) % 24, 10);
+
+    return pad(hours, 2) + ":" + pad(minutes, 2) + ":" + pad(seconds, 2) + "." + pad(milliseconds, 3);
+}
+
+Array.prototype.max = function () {
+    return Math.max.apply(Math, this);
+};
+
+Array.prototype.min = function () {
+    return Math.min.apply(Math, this);
+};

@@ -1,40 +1,133 @@
-﻿ul.list-view {
-    list-item-type: none;
-    margin: 0;
-    padding: 0;
+﻿label {
+    position: absolute;
+    left: -99999px;
 }
 
-ul.list-view li {
-    padding: 1em;
-    background-color: grey;
+.sideButtons {
+    position: absolute;
+    right: .25em;
+    top: .1em;
+    margin: 0;
 }
 
-.list-header {
-    border: 1px solid #456F9A;
-    border-top-left-radius: .6em;
-    border-top-right-radius: .6em;
-    padding: .1em 0 0 .3em;
-    margin: 0;
-    background: #5E87B0;
-    color: white;
-    font-weight: bold;
-    text-shadow: 0 1px 1px #3E6790;
-    background-image: -webkit-gradient(linear, left top, left bottom, from( #6FACD5 ), to(#497BAE));
-    background-image: -webkit-linear-gradient(#6FACD5, #497BAE);
-    background-image: -moz-linear-gradient(#6FACD5, #497BAE);
-    background-image: -ms-linear-gradient(#6FACD5, #497BAE);
-    background-image: -o-linear-gradient(#6FACD5, #497BAE);
-    background-image: linear-gradient(#6FACD5, #497BAE);
+.content-primary {
+    border-top: solid 2px black;
+}
+
+.ui-content .ui-listview {
+    margin: 0 !important;
+}
+
+h2 {
+	margin: 0;
+	border: 0;
 }
 
 #sessionDialog {
     display: none;
-    position: fixed;
-    top:50%;
-    left: 50%;
-    width: 50%;
-    margin-left: -25%;
-    margin-top: -25%;
-    background-color: White;
-    border: solid 1px black;
+}
+
+@media all and (min-width: 650px){
+	.content-secondary {
+		text-align: left;
+		display: inline-block;
+		width: 45%;
+		background: none;
+		border-right: solid 1px black;
+		vertical-align: top;
+	}
+	
+	.content-secondary section {
+	    padding-right: 1%;
+	    margin-bottom: 1em;
+	}
+	
+	.content-secondary .ui-collapsible {
+		margin: 0;
+		padding: 0;
+	}
+	.content-secondary .ui-collapsible-content {
+		border: none;
+	}
+	.content-primary {
+		width: 50%;
+		display: inline-block;
+		vertical-align: top;
+		padding-left: 1%;
+		border-top: 0;
+	}
+	.content-primary ul:first-child {
+		margin-top: 0;
+	}
+	/* fix up the collapsibles - expanded on desktop */
+	.content-secondary .ui-collapsible-heading {
+		display: none;
+	}
+	.content-secondary .ui-collapsible-contain {
+		margin:0;
+	}
+	.content-secondary .ui-collapsible-content {
+		display: block;
+		margin: 0;
+		padding: 0;
+	}	
+	.type-home .ui-content {
+		margin-top: 5px;
+	}
+
+	.type-home .ui-content,
+	.type-interior .ui-content {
+		padding: 0;
+	}
+	.type-interior .ui-content {
+		overflow: hidden;
+	}
+	.type-index .content-secondary {
+		padding: 0;
+	}
+	.type-interior .content-secondary .ui-listview {
+		margin: 0;
+	}
+
+	.type-interior .content-primary {
+		margin: 0;
+	}
+
+	.type-interior .content-secondary {
+		margin: 0;
+		padding: 0;
+	}
+}
+@media all and (min-width: 750px){
+	.content-secondary {
+		width: 34%;
+	}
+	.content-primary {
+		width: 64%;
+	}
+}
+
+@media all and (min-width: 1200px){
+	.content-secondary {
+		width: 30%;
+	}
+	.content-primary {
+		width: 68%;
+	}
+	
+	.type-home .ui-content{
+		background-position: 38.5%;
+	}
+	.type-interior .ui-content {
+		background-position: 30%;
+	}
+	
+	.type-interior .content-secondary {
+		margin: 0;
+		padding: 0;
+	}
+
+	.type-interior .content-primary {
+		width: 68%;
+	}
 }

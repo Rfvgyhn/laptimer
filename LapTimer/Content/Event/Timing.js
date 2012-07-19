@@ -29,7 +29,7 @@
         e.preventDefault();
 
         var $this = $(this);
-        var $container = $this.parent();
+        var $container = $this.closest("li");
         var id = $(".number", $container).text();
 
         if ($this.hasClass("stop")) {
@@ -40,7 +40,7 @@
         }
         else
             $this.removeClass("start").addClass("stop").text("Stop");
-
+        $this.parent().controlgroup("refresh");
         var $display;
 
         if (timers[id])
@@ -67,17 +67,13 @@
 
         timer.start = time;
         timer.lap++;
-        
+
         $.post(ROOT_URL + "Event/AddLap", { lap: timer.lap, time: elapsed, eventId: EVENT_ID, sessionId: CURRENT_SESSION, participant: id });
     });
 
     function updateTimer(id) {
         var time = now() - timers[id].start;
-        var milliseconds = parseInt(time % 1000, 10);
-        var seconds = parseInt((time / 1000) % 60, 10);
-        var minutes = parseInt((time / (1000 * 60)) % 60, 10);
-        var hours = parseInt((time / (1000 * 60 * 60)) % 24, 10);
 
-        timers[id].display.text(pad(hours, 2) + ":" + pad(minutes, 2) + ":" + pad(seconds, 2) + "." + pad(milliseconds, 3));
+        timers[id].display.text(formatTime(time));
     }
 });

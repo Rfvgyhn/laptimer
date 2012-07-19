@@ -64,6 +64,21 @@ namespace LapTimer.Controllers
             
         }
 
+        public JsonResult GetTimes(string eventId, int sessionId)
+        {
+            var @event = eventService.Single(eventId);
+            var session = @event.Sessions.Where(s => s.Id == sessionId).Single();
+            var result = session.Participants
+                                .Select(p => new
+                                {
+                                    name = p.Name,
+                                    number = p.Number,
+                                    times = p.Times.Select(t => t.TotalMilliseconds)
+                                });
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Timing(string slug, DateTime date)
         {
             var model = eventService.Single(e => e.Location.Slug == slug && e.Date.Date == date.Date);

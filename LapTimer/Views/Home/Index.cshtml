@@ -2,17 +2,19 @@
     ViewBag.Title = "Home Page";
 }
 
-@Html.ActionLink("New Event", "Create", "Event")
-<h2 class="list-header">Past Events</h2>
-<ul class="list-view">
+@Html.ActionLink("New Event", "Create", "Event", null, new { data_role = "button" })
+<ul data-role="listview" data-divider-theme="b" data-inset="true">
+    <li data-role="list-divider" role="heading">
+        Past Events
+    </li>
 @foreach (Event e in Model) {
     <li>
         <a href="@Url.RouteUrl("ByDate", new { slug = e.Location.Slug, date = e.Date.ToSlug(), action = "ByDate" })">
             @e.Location.Name
-            <span>
+            <span class="ui-li-count">
                 @e.Date.ToShortDateString()
             </span>
         </a>
-    </li>    
+    </li>
 }
 </ul>

@@ -1,7 +1,13 @@
 ﻿$(function () {
+    $("#create form").on("submit", function (e) {
+        var name = $("#LocationName").val();
+        
+        if (name)
+            $(this).append('<input type="hidden" value="' + name + '" name="LocationName" />');
+    });
     $("#participants").on("click", ".delete", function (e) {
         e.preventDefault();
-        $(this).parent().remove();
+        $(this).closest("li").remove();
     });
 
     $("#addParticipant").on("click", function (e) {
@@ -18,11 +24,14 @@
         $number.val("");
         $name.val("");
 
-        var html =
+        var html = $(
             '<li> \
                 <input type="hidden" name="participants[{number}]" value="{name}" /> \
-                {number} - {name} <a href="#" class="delete">Delete</a> \
-            </li>';
-        $("#participants").append(html.replace(/{number}/g, number).replace(/{name}/g, name));
+                {number} - {name} \
+                <div><a data-role="button" data-icon="delete" data-iconpos="notext" class="sideButtons delete">Delete</a></div> \
+            </li>'.replace(/{number}/g, number).replace(/{name}/g, name));
+
+        var $list = $("#participants");
+        $list.append(html).listview("refresh").find("a").button();
     });
 });

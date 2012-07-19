@@ -2,9 +2,11 @@
 
 @{
     ViewBag.Title = "Timing";
+    ViewBag.PageClass = "type-interior";
+    ViewBag.PageId = "timing";
 }
 
-@section Head {
+@section Resources {
     <script type="text/javascript" src="@Url.Content("~/Content/Event/Timing.js")"></script>
     <script type="text/javascript">
         EVENT_ID = "@Model.Id";
@@ -12,25 +14,33 @@
     </script>
 }
 
-<fieldset>
-    <legend>Sessions</legend>
-    
-    <button id="newSession">New Session</button>
+@section Secondary {
+    <h2 class="ui-bar-b ui-li ui-li-divider">Location</h2>
+    <section>
+        @Html.DisplayFor(model => model.Location.Name)
+        @Model.Date.ToShortDateString()
+        @Html.RouteLink("Details", "ByDate", new { slug = Model.Location.Slug, date = Model.Date.ToSlug(), action = "ByDate" })
+    </section>
 
-    <ul id="sessions">
+    <button id="newSession">New Session</button>
+    <ul data-role="listview" id="sessions">
+        <li data-role="list-divider">Sessions</li>
     @foreach (var s in Model.Sessions) {
-        <li>Session @(s.Id + 1)</li> 
+        <li><a href="#" data-session="@s.Id">Session @(s.Id + 1)</a></li>
     }
     </ul>
-</fieldset>
-<ul id="times">
+}
+
+<ul data-role="listview" id="times">
 @foreach (var t in Model.Sessions.Last().Participants) {
     <li>
         <span class="number">@t.Number</span> -
         <span class="name">@t.Number</span>
         <span class="elapsed" data-lap="@t.Times.Count">@( t.Times.Any() ? t.Times.Last().ToString(@"hh\:mm\:ss\.fff") : "00:00:00.000" )</span>
-        <a href="#" class="split">Split</a>
-        <a href="#" class="toggle start">Start</a>    
+        <div data-role="controlgroup" data-type="horizontal" data-mini="true" class="sideButtons">
+            <a data-role="button" href="#" class="split">Split</a>
+            <a data-role="button" href="#" class="toggle start">Start</a>    
+        </div>
     </li>
 }
 </ul>

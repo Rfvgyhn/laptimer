@@ -2,34 +2,37 @@
 
 @{
     ViewBag.Title = "Create";
+    ViewBag.PageId = "create";
+    ViewBag.PageClass = "type-interior";
 }
 
-@section Head {
+@section Resources {
     <script type="text/javascript" src="@Url.Content("~/Content/Event/Create.js")"></script>
 }
 
-@using (Html.BeginForm()) {
-    <fieldset>
-        <legend>Location</legend>
-
+@section Secondary {
+    <h2 class="ui-bar-b">Location</h2>
+    <section>
         @Html.LabelFor(m => m.LocationName)
         @Html.TextBoxFor(m => m.LocationName, new { placeholder = "Name" })
         <span class="noGPS"></span>
-    </fieldset>
-            
-    <fieldset>
-        <legend>Participants</legend>
+    </section>
 
+    <h2 class="ui-bar-b">Participants</h2>
+    <section>
         <label for="newNumber">Number</label>
         <input id="newNumber" placeholder="Number" value="" type="number">
-        <button id="addParticipant">Add</button>
-
+        
         <label for="newName">Name</label>
         <input id="newName" placeholder="Name" value="" type="text">
 
-        <ul id="participants">
-            
-        </ul>
-    </fieldset>
+        <button id="addParticipant">Add</button>
+    </section>
+}
+
+@using (Html.BeginForm()) {
     <input type="submit" value="Create" />
+    <ul data-role="listview" data-inset="true" data-split-icon="delete" id="participants">
+            
+    </ul>    
 }
