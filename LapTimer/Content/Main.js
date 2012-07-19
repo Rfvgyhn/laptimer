@@ -7,7 +7,7 @@
         if (performance && performance.webkitNow)
             return performance.webkitNow();
         else
-            return Date().getTime();
+            return new Date().getTime();
     }
 }
 

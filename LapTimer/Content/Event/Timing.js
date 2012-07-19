@@ -40,9 +40,7 @@
         }
         else
             $this.removeClass("start").addClass("stop").find(".ui-btn-text").text("Stop");
-        
-        //$this.parent().controlgroup("refresh");
-        
+
         var $display;
 
         if (timers[id])
@@ -54,7 +52,7 @@
         }
 
         timers[id].start = now();
-        timers[id].interval = setInterval(updateTimer, 10, id);
+        timers[id].interval = setInterval(function () { updateTimer(id); }, 10);
     });
 
     $(".split").on("click", function (e) {
