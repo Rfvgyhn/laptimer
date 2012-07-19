@@ -40,7 +40,7 @@
         }
         else
             $this.removeClass("start").addClass("stop").text("Stop");
-        $this.parent().controlgroup("refresh");
+        //$this.parent().controlgroup("refresh");
         var $display;
 
         if (timers[id])
@@ -59,7 +59,7 @@
         e.preventDefault();
 
         var $this = $(this);
-        var $container = $this.parent();
+        var $container = $this.closest("li");
         var id = $(".number", $container).text();
         var timer = timers[id];
         var time = now();
