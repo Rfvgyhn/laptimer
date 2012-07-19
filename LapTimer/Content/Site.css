@@ -6,7 +6,11 @@
 .sideButtons {
     position: absolute;
     right: .25em;
-    top: .1em;
+    top: 0;
+    margin: .1em  0 !important;
+}
+
+.sideButtons > a {
     margin: 0;
 }
 

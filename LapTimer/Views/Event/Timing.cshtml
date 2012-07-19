@@ -38,8 +38,8 @@
         <span class="name">@t.Number</span>
         <span class="elapsed" data-lap="@t.Times.Count">@( t.Times.Any() ? t.Times.Last().ToString(@"hh\:mm\:ss\.fff") : "00:00:00.000" )</span>
         <div data-role="controlgroup" data-type="horizontal" data-mini="true" class="sideButtons">
-            <a href="#" class="split">Split</a>
-            <a href="#" class="toggle start">Start</a>    
+            <a data-role="button" href="#" class="split">Split</a>
+            <a data-role="button" href="#" class="toggle start">Start</a>    
         </div>
     </li>
 }

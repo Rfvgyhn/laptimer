@@ -34,13 +34,15 @@
 
         if ($this.hasClass("stop")) {
             clearInterval(timers[id].interval);
-            $this.removeClass("stop").addClass("start").text("Start");
+            $this.removeClass("stop").addClass("start").find(".ui-btn-text").text("Start");
 
             return;
         }
         else
-            $this.removeClass("start").addClass("stop").text("Stop");
+            $this.removeClass("start").addClass("stop").find(".ui-btn-text").text("Stop");
+        
         //$this.parent().controlgroup("refresh");
+        
         var $display;
 
         if (timers[id])

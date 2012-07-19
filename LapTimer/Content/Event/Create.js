@@ -28,7 +28,7 @@
             '<li> \
                 <input type="hidden" name="participants[{number}]" value="{name}" /> \
                 {number} - {name} \
-                <div><a data-role="button" data-icon="delete" data-iconpos="notext" class="sideButtons delete">Delete</a></div> \
+                <div class="sideButtons"><a data-role="button" data-icon="delete" data-iconpos="notext" class="sideButtons delete">Delete</a></div> \
             </li>'.replace(/{number}/g, number).replace(/{name}/g, name));
 
         var $list = $("#participants");
