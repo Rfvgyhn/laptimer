@@ -1,4 +1,5 @@
-﻿$(function () {
+﻿$("#details").on("pagecreate", function () {
+    var $page = $(this);
     var summaryTmpl = 'Best: {number} - {name} - {time}';
     var timeTmpl = '<li>{time}</li>';
     var noTimes = '<li>No Times</li>';
@@ -12,14 +13,15 @@
             </li>\
         </ul>';
 
-    $("#details ul a").on("click", function (e) {
+    $("ul a", $page).on("click", function (e) {
         e.preventDefault();
 
         var $this = $(this);
-        var sessionId = $this.data("session");
+        var sessionName = $this.text();
+        var eventId = $this.closest("ul").data("event");
 
         $.mobile.showPageLoadingMsg();
-        $.get(ROOT_URL + "Event/GetTimes", { eventId: eventId, sessionId: sessionId })
+        $.get(ROOT_URL + "Event/GetTimes", { eventId: eventId, sessionName: sessionName})
          .success(function (data) {
              var best;
              var html = '';
@@ -51,7 +53,7 @@
                     + html;
              }
 
-             $("#sessionDetails ul").replaceWith(html);
+             $("#sessionDetails").html("").append(html);
              $.mobile.hidePageLoadingMsg();
              $this.closest("li").addClass("active").siblings(".active").removeClass("active");
          })

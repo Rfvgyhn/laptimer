@@ -1,34 +1,47 @@
-﻿$(function () {
+﻿$("#timing").on("pagecreate", function () {
+    var $page = $(this);
     var timers = {};
-
-    $("#sessions li").eq(CURRENT_SESSION + 1).addClass("active");
+    var $sessionContainer = $(".sessions", $page);
+    var eventId = $sessionContainer.data("event");
+    var currentSession = $("li:eq(1)", $sessionContainer).addClass("active").text();
 
     $("#newSession").on("click", function (e) {
         e.preventDefault();
 
-        $("#sessionDialog").show();
+        $('<div>').simpledialog2({
+            mode: 'button',
+            headerText: 'Add Session',
+            headerClose: true,
+            buttonPrompt: 'Name',
+            buttonInput: true,
+            buttons: {
+                'Create': {
+                    click: function () {
+                        var name = $.mobile.sdLastInput;
+                        $.post(ROOT_URL + "Event/AddSession", { eventId: eventId, name: name })
+                         .success(function () {
+                             $(".active", $sessionContainer).removeClass("active");
+                             $sessionContainer.append('<li class="active"><a href="#">' + name + '</a></li>')
+                                              .listview("refresh");
+                             currentSession = name;
+                             resetTimers();
+                         })
+                         .error(function () {
+
+                         });
+                    },
+                    icon: "plus"
+                },
+                'Cancel': {
+                    click: function () { },
+                    icon: "delete",
+                    theme: "c"
+                }
+            }
+        });
     });
 
-    $("#closeDialog").on("click", function (e) {
-        e.preventDefault();
-
-        $("#sessionDialog").hide();
-    });
-
-    $("#saveSession").on("click", function (e) {
-        e.preventDefault();
-
-        $.post("", {})
-         .success(function () {
-             // append li with class active
-            // remove other lis active
-         })
-         .error(function () {
-
-         });
-    });
-
-    $(".toggle").on("click", function (e) {
+    $(".toggle", $page).on("click", function (e) {
         e.preventDefault();
 
         var $this = $(this);
@@ -58,7 +71,7 @@
         timers[id].interval = setInterval(function () { updateTimer(id); }, 10);
     });
 
-    $(".split").on("click", function (e) {
+    $(".split", $page).on("click", function (e) {
         e.preventDefault();
 
         var $this = $(this);
@@ -71,12 +84,19 @@
         timer.start = time;
         timer.lap++;
 
-        $.post(ROOT_URL + "Event/AddLap", { lap: timer.lap, time: elapsed, eventId: EVENT_ID, sessionId: CURRENT_SESSION, participant: id });
+        $.post(ROOT_URL + "Event/AddLap", { lap: timer.lap, time: elapsed, eventId: eventId, sessionName: currentSession, participant: id });
     });
 
     function updateTimer(id) {
         var time = now() - timers[id].start;
 
         timers[id].display.text(formatTime(time));
+    }
+
+    function resetTimers() {
+        for (var id in timers) {
+            if (timers.hasOwnProperty(id))
+                timers[id].display.text(formatTime(0));
+        }
     }
 });

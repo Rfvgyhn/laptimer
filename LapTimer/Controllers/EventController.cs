@@ -7,6 +7,7 @@ using LapTimer.Services;
 using LapTimer.Models;
 using LapTimer.Models.ViewModels;
 using LapTimer.Infrastructure.Extensions;
+using MongoDB.Bson;
 
 namespace LapTimer.Controllers
 {
@@ -51,7 +52,7 @@ namespace LapTimer.Controllers
                 Location = new Location { Name = model.LocationName, Slug = model.LocationName.ToSlug() },
                 Date = DateTime.UtcNow
             };
-            Session session = new Session { Id = 0 };
+            Session session = new Session("Session 1");
 
             foreach (var kvp in model.Participants)
                 session.Participants.Add(new Participant { Name = kvp.Value, Number = kvp.Key });
@@ -64,10 +65,10 @@ namespace LapTimer.Controllers
             
         }
 
-        public JsonResult GetTimes(string eventId, int sessionId)
+        public JsonResult GetTimes(string eventId, string sessionName)
         {
             var @event = eventService.Single(eventId);
-            var session = @event.Sessions.Where(s => s.Id == sessionId).Single();
+            var session = @event.Sessions.Where(s => s.Name == sessionName).Single();
             var result = session.Participants
                                 .Select(p => new
                                 {
@@ -130,11 +131,27 @@ namespace LapTimer.Controllers
         public JsonResult AddLap(SaveLapViewModel model)
         {
             var @event = eventService.Single(model.EventId);
-            var session = @event.Sessions.Where(s => s.Id == model.SessionId).Single();
+            var session = @event.Sessions.Where(s => s.Name == model.SessionName).Single();
             var participant = session.Participants.Where(p => p.Number == model.Participant).Single();
 
             participant.Times.Add(TimeSpan.FromMilliseconds(model.Time));
 
+            eventService.Save(@event);
+
+            return Json(new { });
+        }
+
+        [HttpPost]
+        public JsonResult AddSession(string eventId, string name)
+        {
+            var @event = eventService.Single(eventId);
+            var session = new Models.Session(name);
+
+            foreach (var p in @event.Sessions.First().Participants)
+                session.Participants.Add(p);
+
+            @event.Sessions.Add(session);
+            
             eventService.Save(@event);
 
             return Json(new { });

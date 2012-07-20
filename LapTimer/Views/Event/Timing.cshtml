@@ -8,10 +8,6 @@
 
 @section Resources {
     <script type="text/javascript" src="@Url.Content("~/Content/Event/Timing.js")"></script>
-    <script type="text/javascript">
-        EVENT_ID = "@Model.Id";
-        CURRENT_SESSION = @Model.Sessions.Last().Id;
-    </script>
 }
 
 @section HeaderButtons {
@@ -29,16 +25,16 @@
     </section>
 
     
-    <ul data-role="listview" id="sessions">
+    <ul data-role="listview" class="sessions" data-event="@Model.Id">
         <li data-role="list-divider">Sessions</li>
     @foreach (var s in Model.Sessions) {
-        <li><a href="#" data-session="@s.Id">Session @(s.Id + 1)</a></li>
+        <li><a href="#">@s.Name</a></li>
     }
     </ul>
 }
 
 <ul data-role="listview" id="times">
-@foreach (var t in Model.Sessions.Last().Participants) {
+@foreach (var t in Model.Sessions.First().Participants) {
     <li>
         <span class="number">@t.Number</span> -
         <span class="name">@t.Number</span>
@@ -50,8 +46,3 @@
     </li>
 }
 </ul>
-<div id="sessionDialog">
-    <input name="name" placeholder="Name" type="text" />
-    <button id="closeDialog">Cancel</button>
-    <button id="saveSession">Ok</button>
-</div>

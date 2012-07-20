@@ -7,7 +7,7 @@
     position: absolute;
     right: .25em;
     top: 0;
-    margin: .1em  0 !important;
+    margin: .1em  0;
 }
 
 .sideButtons > a {
@@ -24,6 +24,10 @@
 
 .ui-header .ui-controlgroup-horizontal {
     margin: 0;
+}
+
+input.ui-simpledialog-input {
+    margin: 0 auto;
 }
 
 h2 {
@@ -44,10 +48,6 @@ li.active {
     background-image: -ms-linear-gradient(#D0D0D0,#DFDFDF);
     background-image: -o-linear-gradient(#D0D0D0,#DFDFDF);
     background-image: linear-gradient(#D0D0D0,#DFDFDF);
-}
-
-#sessionDialog {
-    display: none;
 }
 
 @media all and (min-width: 650px){

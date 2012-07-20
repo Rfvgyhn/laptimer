@@ -1,7 +1,8 @@
-﻿$(function () {
-    $("#create form").on("submit", function (e) {
+﻿$("#create").on("pagecreate", function () {
+    var $page = $(this);
+    $("form", $page).on("submit", function (e) {
         var name = $("#LocationName").val();
-        
+
         if (name)
             $(this).append('<input type="hidden" value="' + name + '" name="LocationName" />');
     });
