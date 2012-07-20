@@ -115,7 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Event\Details.js" />
-    <Content Include="Content\Event\Timing.js" />
+    <Content Include="Content\Event\Edit.js" />
     <Content Include="Content\Event\Create.js" />
     <Content Include="favicon.ico" />
     <Content Include="Content\Main.js" />
@@ -151,7 +151,7 @@
     <Content Include="Views\Event\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Event\Timing.cshtml" />
+    <Content Include="Views\Event\Edit.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

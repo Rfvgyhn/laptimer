@@ -80,53 +80,13 @@ namespace LapTimer.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Timing(string slug, DateTime date)
+        public ActionResult Edit(string slug, DateTime date)
         {
             var model = eventService.Single(e => e.Location.Slug == slug && e.Date.Date == date.Date);
 
             return View(model);
         }
         
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
- 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
- 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         [HttpPost]
         public JsonResult AddLap(SaveLapViewModel model)
         {
