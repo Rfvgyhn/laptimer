@@ -33,9 +33,9 @@
     </ul>
 }
 
-<ul data-role="listview" id="times">
+<ul data-role="listview" class="times">
 @foreach (var t in Model.Sessions.First().Participants) {
-    <li>
+    <li data-number="@t.Number">
         <span class="number">@t.Number</span> -
         <span class="name">@t.Number</span>
         <span class="elapsed" data-lap="@t.Times.Count">@( t.Times.Any() ? t.Times.Last().ToString(@"mm\:ss\.fff") : "00:00.000" )</span>

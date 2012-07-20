@@ -28,7 +28,7 @@ function formatTime(time) {
     var milliseconds = parseInt(time % 1000, 10);
     var seconds = parseInt((time / 1000) % 60, 10);
     var minutes = parseInt((time / (1000 * 60)) % 60, 10);
-
+    
     return pad(minutes, 2) + ":" + pad(seconds, 2) + "." + pad(milliseconds, 3);
 }
 

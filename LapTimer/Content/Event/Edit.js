@@ -5,6 +5,8 @@
     var eventId = $sessionContainer.data("event");
     var currentSession = $("li:eq(1)", $sessionContainer).addClass("active").text();
 
+    initTimers($(".times li", $page));
+
     $("#newSession").on("click", function (e) {
         e.preventDefault();
 
@@ -44,6 +46,9 @@
     $(".toggle", $page).on("click", function (e) {
         e.preventDefault();
 
+        if (!currentSession)
+            return;
+
         var $this = $(this);
         var $container = $this.closest("li");
         var id = $(".number", $container).text();
@@ -57,22 +62,15 @@
         else
             $this.removeClass("start").addClass("stop").find(".ui-btn-text").text("Stop");
 
-        var $display;
-
-        if (timers[id])
-            $display = timers[id].display;
-        else {
-            var $elapsed = $(".elapsed", $container);
-            timers[id] = { lap: $elapsed.data("lap") };
-            $display = timers[id].display = $elapsed;
-        }
-
         timers[id].start = now();
         timers[id].interval = setInterval(function () { updateTimer(id); }, 10);
     });
 
     $(".split", $page).on("click", function (e) {
         e.preventDefault();
+
+        if (!currentSession)
+            return;
 
         var $this = $(this);
         var $container = $this.closest("li");
@@ -87,6 +85,80 @@
         $.post(ROOT_URL + "Event/AddLap", { lap: timer.lap, time: elapsed, eventId: eventId, sessionName: currentSession, participant: id });
     });
 
+    $(".sessions", $page).on("click", "a", function (e) {
+        e.preventDefault();
+
+        var $this = $(this);
+        var sessionName = $this.text();
+
+        $.mobile.showPageLoadingMsg();
+        $.get(ROOT_URL + "Event/GetTimes", { eventId: eventId, sessionName: sessionName })
+         .success(function (data) {
+             var $times = $(".times li", $page);
+             $(data).each(function () {
+                 var timer = timers[this.number];
+                 timer.lap = this.times.length + 1;
+
+                 timer.display.text(formatTime(this.times.pop() || 0));
+             });
+
+             $this.closest("li").addClass("active").siblings(".active").removeClass("active");
+             currentSession = sessionName;
+             $.mobile.hidePageLoadingMsg();
+         })
+         .error(function () {
+             $.mobile.hidePageLoadingMsg();
+         });
+    }).on("taphold", "a", function (e) {
+        e.preventDefault();
+
+        var $this = $(this);
+        var name = $this.text();
+
+        $('<div>').simpledialog2({
+            mode: 'button',
+            headerText: 'Edit Session',
+            headerClose: true,
+            buttonInputDefault: name,
+            buttonInput: true,
+            buttons: {
+                'Update': {
+                    click: function () {
+                        var newName = $.mobile.sdLastInput;
+
+                        $.post(ROOT_URL + "Event/EditSession", { eventId: eventId, name: name, newName: newName })
+                         .success(function () {
+                             $this.text(newName);
+                         })
+                         .error(function () {
+
+                         });
+                    },
+                    icon: "plus"
+                },
+                'Delete': {
+                    click: function () {
+                        $.post(ROOT_URL + "Event/DeleteSession", { eventId: eventId, name: name })
+                         .success(function () {
+                             currentSession = null;
+
+                             $this.closest("li").remove();
+                         })
+                         .error(function () {
+
+                         });
+                    },
+                    icon: "delete"
+                },
+                'Cancel': {
+                    click: function () { },
+                    icon: "back",
+                    theme: "c"
+                }
+            }
+        });
+    });
+
     function updateTimer(id) {
         var time = now() - timers[id].start;
 
@@ -98,5 +170,13 @@
             if (timers.hasOwnProperty(id))
                 timers[id].display.text(formatTime(0));
         }
+    }
+
+    function initTimers($participants) {
+        $participants.each(function () {
+            var id = $(".number", this).text();
+            var $elapsed = $(".elapsed", this);
+            timers[id] = { lap: $elapsed.data("lap") || 0, display: $elapsed };
+        });
     }
 });

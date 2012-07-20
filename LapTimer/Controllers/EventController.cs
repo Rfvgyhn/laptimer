@@ -108,10 +108,34 @@ namespace LapTimer.Controllers
             var session = new Models.Session(name);
 
             foreach (var p in @event.Sessions.First().Participants)
-                session.Participants.Add(p);
+                session.Participants.Add(new Participant { Number = p.Number, Name = p.Name });
 
             @event.Sessions.Add(session);
             
+            eventService.Save(@event);
+
+            return Json(new { });
+        }
+
+        [HttpPost]
+        public JsonResult EditSession(string eventId, string name, string newName)
+        {
+            var @event = eventService.Single(eventId);
+            var session = @event.Sessions.Where(s => s.Name == name).Single();
+
+            session.Name = newName;
+            eventService.Save(@event);
+
+            return Json(new { });
+        }
+
+        [HttpPost]
+        public JsonResult DeleteSession(string eventId, string name)
+        {
+            var @event = eventService.Single(eventId);
+            var session = @event.Sessions.Where(s => s.Name == name).Single();
+
+            @event.Sessions.Remove(session);
             eventService.Save(@event);
 
             return Json(new { });
