@@ -11,14 +11,14 @@
 }
 
 @section Secondary {
-    <h2 class="ui-bar-b">Location</h2>
+    <h2 class="ui-bar-b ui-li ui-li-divider">Location</h2>
     <section>
         @Html.LabelFor(m => m.LocationName)
         @Html.TextBoxFor(m => m.LocationName, new { placeholder = "Name" })
         <span class="noGPS"></span>
     </section>
 
-    <h2 class="ui-bar-b">Participants</h2>
+    <h2 class="ui-bar-b ui-li ui-li-divider">Participants</h2>
     <section>
         <label for="newNumber">Number</label>
         <input id="newNumber" placeholder="Number" value="" type="number">

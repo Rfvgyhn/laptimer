@@ -1,6 +1,8 @@
 ﻿$(function () {
     var timers = {};
 
+    $("#sessions li").eq(CURRENT_SESSION + 1).addClass("active");
+
     $("#newSession").on("click", function (e) {
         e.preventDefault();
 
@@ -18,7 +20,8 @@
 
         $.post("", {})
          .success(function () {
-
+             // append li with class active
+            // remove other lis active
          })
          .error(function () {
 

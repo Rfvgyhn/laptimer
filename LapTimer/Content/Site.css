@@ -22,9 +22,28 @@
     margin: 0 !important;
 }
 
+.ui-header .ui-controlgroup-horizontal {
+    margin: 0;
+}
+
 h2 {
 	margin: 0;
 	border: 0;
+}
+
+/* copied from ui-btn-down-c */
+li.active {
+    border: 1px solid #BBB;
+    background: #D6D6D6;
+    font-weight: bold;
+    color: #222;
+    text-shadow: 0 1px 0 white;
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#D0D0D0),to(#DFDFDF));
+    background-image: -webkit-linear-gradient(#D0D0D0,#DFDFDF);
+    background-image: -moz-linear-gradient(#D0D0D0,#DFDFDF);
+    background-image: -ms-linear-gradient(#D0D0D0,#DFDFDF);
+    background-image: -o-linear-gradient(#D0D0D0,#DFDFDF);
+    background-image: linear-gradient(#D0D0D0,#DFDFDF);
 }
 
 #sessionDialog {

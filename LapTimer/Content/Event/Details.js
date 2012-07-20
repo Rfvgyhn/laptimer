@@ -15,7 +15,9 @@
     $("#details ul a").on("click", function (e) {
         e.preventDefault();
 
-        var sessionId = $(this).data("session");
+        var $this = $(this);
+        var sessionId = $this.data("session");
+
         $.mobile.showPageLoadingMsg();
         $.get(ROOT_URL + "Event/GetTimes", { eventId: eventId, sessionId: sessionId })
          .success(function (data) {
@@ -51,6 +53,7 @@
 
              $("#sessionDetails ul").replaceWith(html);
              $.mobile.hidePageLoadingMsg();
+             $this.closest("li").addClass("active").siblings(".active").removeClass("active");
          })
          .error(function () {
              $.mobile.hidePageLoadingMsg();

@@ -14,15 +14,21 @@
     </script>
 }
 
+@section HeaderButtons {
+    <div data-role="controlgroup" data-type="horizontal" class="ui-btn-right">
+        @Html.RouteLink("Details", "ByDate", new { slug = Model.Location.Slug, date = Model.Date.ToSlug(), action = "ByDate" }, new { data_role="button", data_icon = "info", data_iconpos = "notext" })
+        <a href="#" data-role="button" data-icon="plus" data-iconpos="notext" id="newSession">New Session</a>
+    </div>
+}
+
 @section Secondary {
     <h2 class="ui-bar-b ui-li ui-li-divider">Location</h2>
     <section>
         @Html.DisplayFor(model => model.Location.Name)
-        @Model.Date.ToShortDateString()
-        @Html.RouteLink("Details", "ByDate", new { slug = Model.Location.Slug, date = Model.Date.ToSlug(), action = "ByDate" })
+        @Model.Date.ToShortDateString()        
     </section>
 
-    <button id="newSession">New Session</button>
+    
     <ul data-role="listview" id="sessions">
         <li data-role="list-divider">Sessions</li>
     @foreach (var s in Model.Sessions) {

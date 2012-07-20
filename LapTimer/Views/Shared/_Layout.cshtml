@@ -19,7 +19,8 @@
         @RenderSection("Resources", false)
         <header data-role="header">
             <h1>@ViewBag.Title</h1>
-            @Html.ActionLink("Home", "Index", "Home", null, new { data_role = "button", data_icon = "home", data_iconpos = "notext" }) 
+            @Html.ActionLink("Home", "Index", "Home", null, new { data_role = "button", data_icon = "home", data_iconpos = "notext", @class="ui-btn-left" })
+            @RenderSection("HeaderButtons", false)
         </header>
         <section data-role="content">
         @if (IsSectionDefined("Secondary")) {
