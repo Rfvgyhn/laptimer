@@ -1,4 +1,4 @@
-﻿$("#edit").on("pagecreate", function () {
+﻿$("#edit").on("pageinit", function (event) {
     var $page = $(this);
     var timers = {};
     var $sessionContainer = $(".sessions", $page);
@@ -54,13 +54,14 @@
         var id = $(".number", $container).text();
 
         if ($this.hasClass("stop")) {
-            clearInterval(timers[id].interval);
-            $this.removeClass("stop").addClass("start").find(".ui-btn-text").text("Start");
+            stopTimer(id, $this);
 
             return;
         }
-        else
-            $this.removeClass("start").addClass("stop").find(".ui-btn-text").text("Stop");
+        else {
+            $this.removeClass("start").addClass("stop").siblings().find(".ui-btn-text").text("Stop");
+            $this.parent().prev().find("button").button("enable");
+        }
 
         timers[id].start = now();
         timers[id].interval = setInterval(function () { updateTimer(id); }, 10);
@@ -94,6 +95,7 @@
         $.mobile.showPageLoadingMsg();
         $.get(ROOT_URL + "Event/GetTimes", { eventId: eventId, sessionName: sessionName })
          .success(function (data) {
+             resetTimers();
              var $times = $(".times li", $page);
              $(data).each(function () {
                  var timer = timers[this.number];
@@ -159,6 +161,15 @@
         });
     });
 
+    function stopTimer(id, $button) {
+        if (!$button)
+            $button = $(".times li[data-number=" + id + "] .toggle", $page);
+
+        clearInterval(timers[id].interval);
+        $button.removeClass("stop").addClass("start").siblings().find(".ui-btn-text").text("Start");
+        $button.parent().prev().find("button").button("disable");
+    }
+
     function updateTimer(id) {
         var time = now() - timers[id].start;
 
@@ -167,8 +178,11 @@
 
     function resetTimers() {
         for (var id in timers) {
-            if (timers.hasOwnProperty(id))
+            if (timers.hasOwnProperty(id)) {
                 timers[id].display.text(formatTime(0));
+
+                stopTimer(id);
+            }
         }
     }
 
@@ -176,6 +190,8 @@
         $participants.each(function () {
             var id = $(".number", this).text();
             var $elapsed = $(".elapsed", this);
+
+            $(".split", this).button("disable");
             timers[id] = { lap: $elapsed.data("lap") || 0, display: $elapsed };
         });
     }

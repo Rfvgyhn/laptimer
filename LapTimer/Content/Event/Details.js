@@ -1,4 +1,4 @@
-﻿$("#details").on("pagecreate", function () {
+﻿$("#details").on("pageinit", function () {
     var $page = $(this);
     var summaryTmpl = 'Best: {number} - {name} - {time}';
     var timeTmpl = '<li>{time}</li>';

@@ -1,4 +1,4 @@
-﻿$("#create").on("pagecreate", function () {
+﻿$("#create").on("pageinit", function () {
     var $page = $(this);
     $("form", $page).on("submit", function (e) {
         var name = $("#LocationName").val();
