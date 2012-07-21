@@ -14,10 +14,12 @@ namespace LapTimer.Controllers
     public class EventController : Controller
     {
         IEventService eventService;
+        ISessionService sessionService;
 
-        public EventController(IEventService eventService)
+        public EventController(IEventService eventService, ISessionService sessionService)
         {
             this.eventService = eventService;
+            this.sessionService = sessionService;
         }
 
         public ActionResult Index()
@@ -67,8 +69,7 @@ namespace LapTimer.Controllers
 
         public JsonResult GetTimes(string eventId, string sessionName)
         {
-            var @event = eventService.Single(eventId);
-            var session = @event.Sessions.Where(s => s.Name == sessionName).Single();
+            var session = sessionService.Single(eventId, sessionName);
             var result = session.Participants
                                 .Select(p => new
                                 {
@@ -90,29 +91,15 @@ namespace LapTimer.Controllers
         [HttpPost]
         public JsonResult AddLap(SaveLapViewModel model)
         {
-            var @event = eventService.Single(model.EventId);
-            var session = @event.Sessions.Where(s => s.Name == model.SessionName).Single();
-            var participant = session.Participants.Where(p => p.Number == model.Participant).Single();
-
-            participant.Times.Add(TimeSpan.FromMilliseconds(model.Time));
-
-            eventService.Save(@event);
+            sessionService.AddLap(model.EventId, model.SessionName, model.Participant, model.Time);
 
             return Json(new { });
         }
 
         [HttpPost]
         public JsonResult AddSession(string eventId, string name)
-        {
-            var @event = eventService.Single(eventId);
-            var session = new Models.Session(name);
-
-            foreach (var p in @event.Sessions.First().Participants)
-                session.Participants.Add(new Participant { Number = p.Number, Name = p.Name });
-
-            @event.Sessions.Add(session);
-            
-            eventService.Save(@event);
+        {                       
+            sessionService.Add(eventId, name);
 
             return Json(new { });
         }
@@ -120,11 +107,7 @@ namespace LapTimer.Controllers
         [HttpPost]
         public JsonResult EditSession(string eventId, string name, string newName)
         {
-            var @event = eventService.Single(eventId);
-            var session = @event.Sessions.Where(s => s.Name == name).Single();
-
-            session.Name = newName;
-            eventService.Save(@event);
+            sessionService.Update(eventId, name, newName);
 
             return Json(new { });
         }
@@ -132,11 +115,7 @@ namespace LapTimer.Controllers
         [HttpPost]
         public JsonResult DeleteSession(string eventId, string name)
         {
-            var @event = eventService.Single(eventId);
-            var session = @event.Sessions.Where(s => s.Name == name).Single();
-
-            @event.Sessions.Remove(session);
-            eventService.Save(@event);
+            sessionService.Delete(eventId, name);
 
             return Json(new { });
         }
