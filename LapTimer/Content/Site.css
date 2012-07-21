@@ -50,6 +50,35 @@ li.active {
     background-image: linear-gradient(#D0D0D0,#DFDFDF);
 }
 
+.best {
+    color: green;
+}
+
+#sessionDetails h3 {
+    
+}
+
+#sessionDetails ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#sessionDetails > ul {
+    display: inline-block;
+    border-right: solid 1px black;
+    margin-right: 1em;
+    padding-right: 1em;
+}
+
+#sessionDetails > ul:last-child {
+    border: 0;
+}
+
+#sessionDetails ul ul {
+    padding-left: 1em;
+}
+
 @media all and (min-width: 650px){
 	.content-secondary {
 		text-align: left;
