@@ -100,7 +100,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\BaseConverter.cs" />
     <Compile Include="Infrastructure\DefaultDictionaryBinder.cs" />
     <Compile Include="Infrastructure\Extensions\DateTimeExtensions.cs" />
     <Compile Include="Infrastructure\Extensions\StringExtensions.cs" />

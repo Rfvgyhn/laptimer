@@ -4,6 +4,7 @@ using LapTimer.Data;
 using LapTimer.Models;
 using System.Linq;
 using LapTimer.Infrastructure.Extensions;
+using LapTimer.Infrastructure;
 
 namespace LapTimer.Services
 {
@@ -61,7 +62,7 @@ namespace LapTimer.Services
 
         public Event SingleByShortKey(string shortKey)
         {
-            var key = Convert.FromBase64String(shortKey);
+            var key = shortKey.BaseConvert(62, 16);
             return repository.Single<Event>(key);
         }
 

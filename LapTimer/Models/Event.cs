@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using MongoDB.Bson;
 using System.ComponentModel.DataAnnotations;
-using LapTimer.Infrastructure;
+using LapTimer.Infrastructure.Extensions;
 
 namespace LapTimer.Models
 {
@@ -25,8 +25,8 @@ namespace LapTimer.Models
         public string ShortId
         {
             get 
-            { 
-                return Convert.ToBase64String(Id.ToByteArray());
+            {
+                return Id.ToString().BaseConvert(16, 62);
             }
         }
     }

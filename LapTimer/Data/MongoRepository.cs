@@ -7,7 +7,6 @@ using LapTimer.Infrastructure.Extensions;
 using MongoDB.Driver.Builders;
 using MongoDB.Bson;
 using MongoDB.Driver.Linq;
-using LapTimer.Infrastructure;
 
 namespace LapTimer.Data
 {
