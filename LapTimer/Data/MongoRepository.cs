@@ -7,6 +7,7 @@ using LapTimer.Infrastructure.Extensions;
 using MongoDB.Driver.Builders;
 using MongoDB.Bson;
 using MongoDB.Driver.Linq;
+using LapTimer.Infrastructure;
 
 namespace LapTimer.Data
 {
@@ -30,7 +31,7 @@ namespace LapTimer.Data
         public TEntity Single<TEntity>(object key) where TEntity : class, new()
         {
             var collection = GetCollection<TEntity>();
-            var query = Query.EQ("_id", new ObjectId(key.ToString()));
+            var query = Query.EQ("_id", GetId(key));
             var entity = collection.FindOneAs<TEntity>(query);
 
             if (entity == null)
@@ -65,7 +66,7 @@ namespace LapTimer.Data
         public void Delete<TEntity>(object key) where TEntity : class, new()
         {
             var collection = GetCollection<TEntity>();
-            var query = Query.EQ("_id", BsonValue.Create(key));
+            var query = Query.EQ("_id", GetId(key));
 
             collection.Remove(query);
         }
@@ -75,6 +76,19 @@ namespace LapTimer.Data
             var collectionName = typeof(TEntity).Name.ToLower().Pluralize();
 
             return db.GetCollection<TEntity>(collectionName);
+        }
+
+        private ObjectId GetId(object key)
+        {
+            ObjectId objectId;
+            var byteId = key as byte[];
+
+            if (byteId != null)
+                objectId = new ObjectId(byteId);
+            else
+                objectId = new ObjectId(key.ToString());
+
+            return objectId;
         }
     }
 }

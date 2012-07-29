@@ -12,7 +12,7 @@
 
 @section HeaderButtons {
     <div data-role="controlgroup" data-type="horizontal" class="ui-btn-right">
-        @Html.RouteLink("Details", "ByDate", new { slug = Model.Location.Slug, date = Model.Date.ToSlug(), action = "ByDate" }, new { data_role="button", data_icon = "info", data_iconpos = "notext" })
+        @Html.ActionLink("Details", "Details", new { id = Model.ShortId, slug = Model.Location.Slug }, new { data_role="button", data_icon = "info", data_iconpos = "notext" })
         <a href="#" data-role="button" data-icon="plus" data-iconpos="notext" id="newSession">New Session</a>
     </div>
 }

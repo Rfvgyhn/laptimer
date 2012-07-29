@@ -27,5 +27,10 @@ namespace LapTimer.Infrastructure.Extensions
             byte[] bytes = System.Text.Encoding.GetEncoding("Cyrillic").GetBytes(txt);
             return System.Text.Encoding.ASCII.GetString(bytes);
         }
+
+        public static string FormatWith(this string str, params string[] args)
+        {
+            return string.Format(str, args);
+        }
     }
 }

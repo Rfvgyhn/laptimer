@@ -10,7 +10,7 @@
     </li>
 @foreach (Event e in Model) {
     <li>
-        <a href="@Url.RouteUrl("ByDate", new { slug = e.Location.Slug, date = e.Date.ToSlug(), action = "ByDate" })">
+        <a href="@Url.Action("Details", "Event", new { id = e.ShortId, slug = e.Location.Slug })">
             @e.Location.Name
             <span class="ui-li-count">
                 @e.Date.ToShortDateString()

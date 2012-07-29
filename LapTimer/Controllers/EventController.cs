@@ -8,6 +8,7 @@ using LapTimer.Models;
 using LapTimer.Models.ViewModels;
 using LapTimer.Infrastructure.Extensions;
 using MongoDB.Bson;
+using LapTimer.Infrastructure;
 
 namespace LapTimer.Controllers
 {
@@ -27,18 +28,21 @@ namespace LapTimer.Controllers
             return View();
         }
 
-        public ActionResult ByDate(string slug, DateTime? date = null)
-        {
-            if (date != null)
-            {
-                var @event = eventService.Single(e => e.Location.Slug == slug && e.Date.Date == date.Value.Date);
-
-                return View("Details", @event);
-            }
-            
-            var model = eventService.Find(e => e.Location.Slug == slug);
+        public ActionResult BySlug(string slug, int? year, int? month, int? day)
+        {            
+            var model = eventService.FindBySlug(slug, year, month, day);
 
             return View(model);
+        }
+
+        public ActionResult Details(string id, string slug)
+        {
+            var @event = eventService.SingleByShortKey(id);
+
+            if (@event.Location.Slug != slug)
+                return RedirectPermanent(Url.RouteUrl("Event", new { id = id, slug = @event.Location.Slug }));
+
+            return View("Details", @event);
         }
 
         public ActionResult Create()
@@ -63,7 +67,7 @@ namespace LapTimer.Controllers
 
             eventService.Save(e);
 
-            return RedirectToRoute("ByDate", new { slug = e.Location.Slug, date = e.Date.ToSlug(), action = "ByDate" });
+            return RedirectToAction("Details", new { id = e.ShortId, slug = e.Location.Slug });
             
         }
 
@@ -81,9 +85,9 @@ namespace LapTimer.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Edit(string slug, DateTime date)
+        public ActionResult Edit(string id)
         {
-            var model = eventService.Single(e => e.Location.Slug == slug && e.Date.Date == date.Date);
+            var model = eventService.Single(id);
 
             return View(model);
         }

@@ -11,7 +11,8 @@
 }
 
 @section HeaderButtons {
-    @Html.RouteLink("Edit", "ByDate", new { slug = Model.Location.Slug, date = Model.Date.ToSlug(), action = "Edit" })
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ShortId, slug = Model.Location.Slug })
+    
 }
 
 @section Secondary {

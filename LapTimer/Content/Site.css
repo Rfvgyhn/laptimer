@@ -69,6 +69,7 @@ li.active {
     border-right: solid 1px black;
     margin-right: 1em;
     padding-right: 1em;
+    vertical-align: top;
 }
 
 #sessionDetails > ul:last-child {

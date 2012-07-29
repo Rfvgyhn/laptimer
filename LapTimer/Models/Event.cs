@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using MongoDB.Bson;
 using System.ComponentModel.DataAnnotations;
+using LapTimer.Infrastructure;
 
 namespace LapTimer.Models
 {
@@ -19,6 +20,14 @@ namespace LapTimer.Models
         public Event()
         {
             Sessions = new List<Session>();
+        }
+
+        public string ShortId
+        {
+            get 
+            { 
+                return Convert.ToBase64String(Id.ToByteArray());
+            }
         }
     }
 }

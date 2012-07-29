@@ -100,6 +100,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\BaseConverter.cs" />
     <Compile Include="Infrastructure\DefaultDictionaryBinder.cs" />
     <Compile Include="Infrastructure\Extensions\DateTimeExtensions.cs" />
     <Compile Include="Infrastructure\Extensions\StringExtensions.cs" />
@@ -147,7 +148,7 @@
     <Content Include="Views\Event\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Event\ByDate.cshtml" />
+    <Content Include="Views\Event\BySlug.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Event\Details.cshtml" />
