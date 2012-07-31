@@ -87,7 +87,7 @@ namespace LapTimer.Controllers
 
         public ActionResult Edit(string id)
         {
-            var model = eventService.Single(id);
+            var model = eventService.SingleByShortKey(id);
 
             return View(model);
         }
