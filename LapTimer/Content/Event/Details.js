@@ -3,7 +3,7 @@
     var summaryTmpl = '<h3>Best was <em>{name}</em> with a {time}</h3>';
     var timeTmpl = '<li>{time}</li>';
     var timeBestTmpl = '<li class="best">{time}</li>';
-    var noTimes = '<li>No Times</li>';
+    var noTimes = '<li>No Times&nbsp;</li>';
     var personTmpl =
         '<ul>\
             <li>\

@@ -33,6 +33,10 @@
     margin: .1em  0;
 }
 
+.type-interior .ui-content {
+    padding: 0;
+}
+
 input.ui-simpledialog-input {
     margin: 0 auto;
 }
@@ -73,18 +77,19 @@ li.active {
     list-style-type: none;
     padding: 0;
     margin: 0;
+    font-family: "Courier New" Courier
 }
 
 #sessionDetails > ul {
     display: inline-block;
     border-right: solid 1px black;
-    margin-right: 1em;
+    border-top: solid 1px black;
     padding-right: 1em;
     vertical-align: top;
 }
 
-#sessionDetails > ul:last-child {
-    border: 0;
+#sessionDetails > ul > li {
+    margin-left: 1em;
 }
 
 #sessionDetails ul ul {
