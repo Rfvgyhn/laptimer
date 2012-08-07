@@ -26,6 +26,13 @@
     margin: 0;
 }
 
+.ui-li-divider .ui-btn {
+    position: absolute;
+    right: .25em;
+    top: 0;
+    margin: .1em  0;
+}
+
 input.ui-simpledialog-input {
     margin: 0 auto;
 }
@@ -52,6 +59,10 @@ li.active {
 
 .best {
     color: green;
+}
+
+#newParticipantDlg {
+    display: none;
 }
 
 #sessionDetails h3 {

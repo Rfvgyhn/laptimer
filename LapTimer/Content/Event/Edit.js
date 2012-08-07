@@ -43,6 +43,49 @@
         });
     });
 
+    $("#newParticipant").on("click", function (e) {
+        e.preventDefault();
+
+        $("#newParticipantDlg").simpledialog2();
+    });
+
+    $("#addParticipant").on("click", function () {
+        var $number = $("#newNumber");
+        var $name = $("#newName");
+        var number = $number.val();
+        var key = number;
+        var name = $name.val();
+
+        if (!number || !name)
+            return;
+
+        var duplicates = $(".times li[data-number^='" + number + "']").length;
+
+        if (duplicates > 0)
+            key += "-" + (duplicates + 1);
+        console.log(key);
+        $number.val("");
+        $name.val("");
+
+        $.post(ROOT_URL + "Event/AddParticipant", { eventId: eventId, name: name, number: key })
+            .success(function () {
+                var html = $(
+                '<li data-number="{key}">\
+                    <span class="number">{number}</span> -\
+                    <span class="name">{name}</span>\
+                    <span class="elapsed" data-lap="0">00:00.000</span>\
+                    <div data-role="controlgroup" data-type="horizontal" data-mini="true" class="sideButtons">\
+                        <button class="split">Split</button>\
+                        <button class="toggle start">Start</button>\
+                    </div>\
+                </li>'.replace(/{key}/g, key).replace(/{number}/g, number).replace(/{name}/g, name));
+                $(".times").append(html).listview("refresh").trigger("create");
+            })
+            .error(function () {
+
+            });
+    });
+
     $(".toggle", $page).on("click", function (e) {
         e.preventDefault();
 
@@ -86,7 +129,7 @@
         $.post(ROOT_URL + "Event/AddLap", { lap: timer.lap, time: elapsed, eventId: eventId, sessionName: currentSession, participant: id });
     });
 
-    $(".sessions", $page).on("click", "a", function (e) {
+    $(".sessions", $page).on("click", "a.session", function (e) {
         e.preventDefault();
 
         var $this = $(this);

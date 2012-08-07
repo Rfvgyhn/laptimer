@@ -13,7 +13,7 @@
 @section HeaderButtons {
     <div data-role="controlgroup" data-type="horizontal" class="ui-btn-right">
         @Html.ActionLink("Details", "Details", new { id = Model.ShortId, slug = Model.Slug }, new { data_role="button", data_icon = "info", data_iconpos = "notext" })
-        <a href="#" data-role="button" data-icon="plus" data-iconpos="notext" id="newSession">New Session</a>
+        <a href="#" data-role="button" data-icon="plus" data-iconpos="notext" data-mini="true" id="newParticipant">New Participant</a>
     </div>
 }
 
@@ -26,9 +26,9 @@
 
     
     <ul data-role="listview" class="sessions" data-event="@Model.Id">
-        <li data-role="list-divider">Sessions</li>
+        <li data-role="list-divider">Sessions<a href="#" data-role="button" data-icon="plus" data-iconpos="notext" id="newSession">New Session</a></li>
     @foreach (var s in Model.Sessions) {
-        <li><a href="#">@s.Name</a></li>
+        <li><a href="#" class="session">@s.Name</a></li>
     }
     </ul>
 }
@@ -46,3 +46,14 @@
     </li>
 }
 </ul>
+
+<div id="newParticipantDlg" data-options='{"mode":"blank","blankContent":true,"blankContentAdopt":true,"headerText":"Add Participant","headerClose":true}'>
+    <label for="newNumber">Number</label>
+    <input id="newNumber" placeholder="Number" value="" type="number">
+        
+    <label for="newName">Name</label>
+    <input id="newName" placeholder="Name" value="" type="text">
+
+    <button rel="close" id="addParticipant">Add</button>
+    <button rel="close" data-theme="b">Cancel</button>
+</div>

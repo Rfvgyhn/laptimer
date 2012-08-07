@@ -66,7 +66,7 @@ namespace LapTimer.Controllers
             return RedirectToAction("Details", new { id = e.ShortId, slug = e.Location.Slug });            
         }
 
-        public JsonResult GetTimes(string eventId, string sessionName)
+        public JsonResult GetTimes(string eventId, string sessionName, bool orderByTime = true)
         {
             var @event = eventService.Single(eventId);
             var session = @event.Sessions.Where(s => s.Name == sessionName).Single();
@@ -79,7 +79,8 @@ namespace LapTimer.Controllers
                                 number = p.Number,
                                 times = times.Any() ? times.Single().Value.Select(t => t.TotalMilliseconds) : Enumerable.Empty<double>()
                             };
-            result = result.OrderBy(t => t.times.Min());
+
+            result = orderByTime ? result.OrderBy(t => t.times.DefaultIfEmpty(double.MaxValue).Min()) : result.OrderBy(t => t.number);
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -111,6 +112,17 @@ namespace LapTimer.Controllers
                                           LastLap = times.Any() ? times.Single().Value.Last() : TimeSpan.Zero
                                       };
             return View(model);
+        }
+
+        [HttpPost]
+        public JsonResult AddParticipant(string eventId, string number, string name)
+        {
+            var @event = eventService.Single(eventId);
+            @event.AddParticipant(new Participant { Number = number, Name = name });
+
+            eventService.Save(@event);
+
+            return Json(new { });
         }
         
         [HttpPost]
