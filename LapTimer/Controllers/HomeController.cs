@@ -20,7 +20,7 @@ namespace LapTimer.Controllers
 
         public ActionResult Index()
         {
-            var model = eventService.All();
+            var model = eventService.All().OrderByDescending(e => e.Date);
 
             return View(model);
         }
