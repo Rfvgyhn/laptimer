@@ -38,21 +38,16 @@ namespace LapTimer.Services
 
             var session = new Session(name);
 
-            foreach (var p in @event.Sessions.First().Participants)
-                session.Participants.Add(new Participant { Number = p.Number, Name = p.Name });
-
             @event.Sessions.Add(session);
             eventService.Save(@event);
         }
 
-        public void AddLap(object eventKey, string name, int participantId, double time)
+        public void AddLap(object eventKey, string name, string participantId, double time)
         {
             var @event = eventService.Single(eventKey);
             var session = @event.Sessions.Where(s => s.Name == name.Trim()).Single();
-            var participant = session.Participants.Where(p => p.Number == participantId).Single();
 
-            participant.Times.Add(TimeSpan.FromMilliseconds(time));
-
+            session.AddTime(participantId, TimeSpan.FromMilliseconds(time));
             eventService.Save(@event);
         }
 

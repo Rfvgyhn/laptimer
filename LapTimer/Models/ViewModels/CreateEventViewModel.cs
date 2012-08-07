@@ -11,11 +11,11 @@ namespace LapTimer.Models.ViewModels
         [DisplayName("Name")]
         public string LocationName { get; set; }
 
-        public Dictionary<int, string> Participants { get; set; }
+        public Dictionary<string, string> Participants { get; set; }
 
         public CreateEventViewModel()
         {
-            Participants = new Dictionary<int, string>();
+            Participants = new Dictionary<string, string>();
         }
     }
 }

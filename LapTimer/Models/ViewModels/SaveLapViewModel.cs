@@ -11,6 +11,6 @@ namespace LapTimer.Models.ViewModels
         public float Time { get; set; }
         public string EventId { get; set; }
         public string SessionName { get; set; }
-        public int Participant { get; set; }
+        public string Participant { get; set; }
     }
 }

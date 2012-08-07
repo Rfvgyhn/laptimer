@@ -51,7 +51,7 @@
 
         var $this = $(this);
         var $container = $this.closest("li");
-        var id = $(".number", $container).text();
+        var id = $container.data("number");
 
         if ($this.hasClass("stop")) {
             stopTimer(id, $this);
@@ -75,7 +75,7 @@
 
         var $this = $(this);
         var $container = $this.closest("li");
-        var id = $(".number", $container).text();
+        var id = $container.data("number");
         var timer = timers[id];
         var time = now();
         var elapsed = time - timer.start;
@@ -188,7 +188,7 @@
 
     function initTimers($participants) {
         $participants.each(function () {
-            var id = $(".number", this).text();
+            var id = $(this).data("number");
             var $elapsed = $(".elapsed", this);
 
             $(".split", this).button("disable");

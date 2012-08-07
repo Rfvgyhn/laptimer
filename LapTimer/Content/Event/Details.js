@@ -43,7 +43,7 @@
                      times += (this == min ? timeBestTmpl : timeTmpl).replace("{time}", formatTime(this));
                  });
 
-                 html += personTmpl.replace("{number}", this.number)
+                 html += personTmpl.replace("{number}", this.number.replace(/-\d+/, ""))
                                    .replace("{name}", this.name)
                                    .replace("{times}", hasTimes ? times : noTimes);
              });

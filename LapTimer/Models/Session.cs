@@ -10,12 +10,20 @@ namespace LapTimer.Models
     {
         [BsonId]
         public string Name { get; set; }
-        public IList<Participant> Participants { get; set; }
+        public Dictionary<string, IList<TimeSpan>> Times { get; set; }
 
         public Session(string name)
         {
             Name = name;
-            Participants = new List<Participant>();
+            Times = new Dictionary<string, IList<TimeSpan>>();
+        }
+
+        public void AddTime(string key, TimeSpan time)
+        {
+            if (Times.ContainsKey(key))
+                Times[key].Add(time);
+            else
+                Times.Add(key, new List<TimeSpan> { time });
         }
     }
 }

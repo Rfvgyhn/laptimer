@@ -1,4 +1,4 @@
-﻿@model LapTimer.Models.Event
+﻿@model LapTimer.Models.ViewModels.EditEventViewModel
 
 @{
     ViewBag.Title = "Edit";
@@ -12,7 +12,7 @@
 
 @section HeaderButtons {
     <div data-role="controlgroup" data-type="horizontal" class="ui-btn-right">
-        @Html.ActionLink("Details", "Details", new { id = Model.ShortId, slug = Model.Location.Slug }, new { data_role="button", data_icon = "info", data_iconpos = "notext" })
+        @Html.ActionLink("Details", "Details", new { id = Model.ShortId, slug = Model.Slug }, new { data_role="button", data_icon = "info", data_iconpos = "notext" })
         <a href="#" data-role="button" data-icon="plus" data-iconpos="notext" id="newSession">New Session</a>
     </div>
 }
@@ -20,7 +20,7 @@
 @section Secondary {
     <h2 class="ui-bar-b ui-li ui-li-divider">Location</h2>
     <section>
-        @Html.DisplayFor(model => model.Location.Name)
+        @Html.DisplayFor(model => model.Name)
         @Model.Date.ToShortDateString()        
     </section>
 
@@ -34,11 +34,11 @@
 }
 
 <ul data-role="listview" class="times">
-@foreach (var t in Model.Sessions.First().Participants) {
+@foreach (var t in Model.FirstSessionTimes) {
     <li data-number="@t.Number">
-        <span class="number">@t.Number</span> -
-        <span class="name">@t.Number</span>
-        <span class="elapsed" data-lap="@t.Times.Count">@( t.Times.Any() ? t.Times.Last().ToString(@"mm\:ss\.fff") : "00:00.000" )</span>
+        <span class="number">@t.DisplayNumber</span> -
+        <span class="name">@t.Name</span>
+        <span class="elapsed" data-lap="@t.Lap">@( t.LastLap.ToString(@"mm\:ss\.fff"))</span>
         <div data-role="controlgroup" data-type="horizontal" data-mini="true" class="sideButtons">
             <button class="split">Split</button>
             <button class="toggle start">Start</button>    

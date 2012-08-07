@@ -17,20 +17,26 @@
         var $number = $("#newNumber");
         var $name = $("#newName");
         var number = $number.val();
+        var key = number;
         var name = $name.val();
 
         if (!number || !name)
             return;
+
+        var duplicates = $("input[name^='participants[" + number + "']").length;
+
+        if (duplicates > 0)
+            key += "-" + (duplicates + 1);
 
         $number.val("");
         $name.val("");
 
         var html = $(
             '<li> \
-                <input type="hidden" name="participants[{number}]" value="{name}" /> \
+                <input type="hidden" name="participants[{key}]" value="{name}" /> \
                 {number} - {name} \
                 <div class="sideButtons"><a data-role="button" data-icon="delete" data-iconpos="notext" class="sideButtons delete">Delete</a></div> \
-            </li>'.replace(/{number}/g, number).replace(/{name}/g, name));
+            </li>'.replace(/{key}/g, key).replace(/{number}/g, number).replace(/{name}/g, name));
 
         var $list = $("#participants");
         $list.append(html).listview("refresh").find("a").button();

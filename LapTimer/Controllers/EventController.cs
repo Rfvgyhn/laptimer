@@ -56,39 +56,60 @@ namespace LapTimer.Controllers
             Event e = new Event
             {
                 Location = new Location { Name = model.LocationName, Slug = model.LocationName.ToSlug() },
-                Date = DateTime.UtcNow
+                Date = DateTime.UtcNow,
             };
-            Session session = new Session("Session 1");
 
-            foreach (var kvp in model.Participants)
-                session.Participants.Add(new Participant { Name = kvp.Value, Number = kvp.Key });
-
-            e.Sessions.Add(session);
-
+            e.AddParticipants(model.Participants.Select(kvp => new Participant { Name = kvp.Value, Number = kvp.Key }));            
+            e.Sessions.Add(new Session("Session 1"));
             eventService.Save(e);
 
-            return RedirectToAction("Details", new { id = e.ShortId, slug = e.Location.Slug });
-            
+            return RedirectToAction("Details", new { id = e.ShortId, slug = e.Location.Slug });            
         }
 
         public JsonResult GetTimes(string eventId, string sessionName)
         {
-            var session = sessionService.Single(eventId, sessionName);
-            var result = session.Participants
-                                .Select(p => new
-                                {
-                                    name = p.Name,
-                                    number = p.Number,
-                                    times = p.Times.Select(t => t.TotalMilliseconds)
-                                });
+            var @event = eventService.Single(eventId);
+            var session = @event.Sessions.Where(s => s.Name == sessionName).Single();
+
+            var result = from p in @event.Participants
+                         let times = session.Times.Where(t => t.Key == p.Number)
+                         select new
+                            {
+                                name = p.Name,
+                                number = p.Number,
+                                times = times.Any() ? times.Single().Value.Select(t => t.TotalMilliseconds) : Enumerable.Empty<double>()
+                            };
+            result = result.OrderBy(t => t.times.Min());
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Edit(string id)
         {
-            var model = eventService.SingleByShortKey(id);
+            var @event = eventService.SingleByShortKey(id);
 
+            EditEventViewModel model = new EditEventViewModel
+            {
+                Date = @event.Date,
+                Id = @event.Id,
+                Name = @event.Location.Name,
+                Participants = @event.Participants,
+                Sessions = @event.Sessions,
+                ShortId = @event.ShortId,
+                Slug = @event.Location.Slug
+            };
+
+            model.FirstSessionTimes = from p in @event.Participants
+                                      let times = @event.Sessions.First().Times.Where(t => t.Key == p.Number)
+                                      let dashIndex = p.Number.IndexOf('-')
+                                      select new EditEventSessionViewModel
+                                      {
+                                          DisplayNumber = dashIndex > 0 ? p.Number.Substring(0, dashIndex) : p.Number,
+                                          Number = p.Number,
+                                          Name = p.Name,
+                                          Lap = times.Count(),
+                                          LastLap = times.Any() ? times.Single().Value.Last() : TimeSpan.Zero
+                                      };
             return View(model);
         }
         

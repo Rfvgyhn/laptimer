@@ -100,13 +100,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\ComparisonComparer.cs" />
     <Compile Include="Infrastructure\DefaultDictionaryBinder.cs" />
     <Compile Include="Infrastructure\Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Infrastructure\Extensions\IEnumerableExtensions.cs" />
+    <Compile Include="Infrastructure\Extensions\IListExtensions.cs" />
     <Compile Include="Infrastructure\Extensions\StringExtensions.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Participant.cs" />
     <Compile Include="Models\Session.cs" />
+    <Compile Include="Models\ViewModels\EditEventSessionViewModel.cs" />
+    <Compile Include="Models\ViewModels\EditEventViewModel.cs" />
     <Compile Include="Models\ViewModels\CreateEventViewModel.cs" />
     <Compile Include="Models\ViewModels\SaveLapViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
