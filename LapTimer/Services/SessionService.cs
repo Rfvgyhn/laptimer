@@ -30,13 +30,14 @@ namespace LapTimer.Services
         public void Add(object eventKey, string name)
         {
             var @event = eventService.Single(eventKey);
+            var sessionName = name.Trim();
 
-            if (@event.Sessions.Where(s => s.Name == name.Trim()).Any())
+            if (@event.Sessions.Where(s => s.Name == sessionName).Any())
             {
                 // validation
             }
 
-            var session = new Session(name);
+            var session = new Session(sessionName);
 
             @event.Sessions.Add(session);
             eventService.Save(@event);
