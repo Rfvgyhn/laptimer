@@ -14,6 +14,15 @@
     margin: 0;
 }
 
+.sideButtons .ui-btn-inner {
+    padding: 1em 1.5em 1em 1.5em;
+}
+
+.elapsed {
+    display: block;
+    padding-left: 1em;
+}
+
 .content-primary {
     border-top: solid 2px black;
 }
