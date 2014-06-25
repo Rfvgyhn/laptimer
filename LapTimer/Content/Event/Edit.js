@@ -141,7 +141,7 @@
              resetTimers();
              var $times = $(".times li", $page);
              $(data).each(function () {
-                 var timer = timers[this.number];
+                 var timer = timers[parseInt(this.number)];
                  timer.lap = this.times.length + 1;
 
                  timer.display.text(formatTime(this.times.pop() || 0));
