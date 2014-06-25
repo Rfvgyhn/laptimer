@@ -31,6 +31,8 @@ App_Data
 [Dd]ebug*/
 [Rr]elease*/
 Ankh.NoLoad
+Backup
+UpgradeLog.htm
 
 #Tooling
 _ReSharper*/
